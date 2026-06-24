@@ -1,0 +1,74 @@
+.shell {
+  display: flex;
+  min-height: 100vh;
+  background: #f0f4fb;
+}
+.main {
+  flex: 1;
+  margin-left: 248px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.content {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 20px;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  width: 100%;
+}
+.feedCol {
+  min-width: 0;
+}
+.rightCol {
+  min-width: 0;
+}
+.rCard {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e4e6eb;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.rCardTitle {
+  font-size: 11px;
+  font-weight: 800;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+.statRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 0;
+  font-size: 12px;
+  color: #64748b;
+}
+.statRow b {
+  color: #0f172a;
+  font-weight: 800;
+}
+.empty {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e4e6eb;
+  padding: 40px 20px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 14px;
+}
+@media (max-width: 900px) {
+  .main {
+    margin-left: 0;
+  }
+  .content {
+    grid-template-columns: 1fr;
+  }
+  .rightCol {
+    display: none;
+  }
+}

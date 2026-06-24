@@ -1,0 +1,31 @@
+'use client'
+
+import { useLang } from '@/lib/i18n/LanguageProvider'
+
+export default function LangToggle({ compact = false }: { compact?: boolean }) {
+  const { lang, toggleLang } = useLang()
+
+  return (
+    <button
+      onClick={toggleLang}
+      title={lang === 'en' ? 'التبديل إلى العربية' : 'Switch to English'}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 6,
+        height: compact ? 32 : 38,
+        padding: compact ? '0 10px' : '0 14px',
+        borderRadius: 9,
+        border: '1px solid #e4e6eb',
+        background: '#fff',
+        color: '#1a56db',
+        fontSize: 12.5,
+        fontWeight: 700,
+        cursor: 'pointer',
+        fontFamily: 'inherit',
+      }}
+    >
+      🌐 {lang === 'en' ? 'العربية' : 'English'}
+    </button>
+  )
+}
