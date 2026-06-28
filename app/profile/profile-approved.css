@@ -1,0 +1,84 @@
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f0f4fb;color:#1c1e21;font-size:14px}
+.topbar{background:#fff;height:56px;display:flex;align-items:center;gap:14px;padding:0 24px;border-bottom:1px solid #e4e6eb;position:sticky;top:0;z-index:40}
+.brand{font-size:18px;font-weight:900;color:#1a56db}
+.av-sm{width:34px;height:34px;border-radius:50%;background:#1a56db;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;margin-left:auto}
+
+.page-wrap{max-width:880px;margin:0 auto;padding:20px 24px 60px}
+
+/* COVER + AVATAR */
+.profile-card{background:#fff;border-radius:14px;border:1px solid #e4e6eb;margin-bottom:16px}
+.cover{height:160px;background:linear-gradient(120deg,#1a56db,#2a9d8f);position:relative;border-radius:14px 14px 0 0;overflow:hidden}
+.cover-edit{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.9);padding:6px 12px;border-radius:8px;font-size:11.5px;font-weight:700;color:#0f172a;cursor:pointer}
+.profile-head{padding:0 24px 20px}
+.avatar{width:104px;height:104px;border-radius:22px;border:4px solid #fff;margin-top:-52px;background:#1a56db;color:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;box-shadow:0 4px 14px rgba(0,0,0,.1)}
+
+.head-row{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;margin-top:10px}
+.name-block .name{font-size:22px;font-weight:800;color:#0f172a;display:flex;align-items:center;gap:8px}
+.name-block .role{font-size:14px;color:#64748b;margin-top:3px}
+
+/* CERTIFICATION BADGES — directly under name, unique to Drugbox */
+.cert-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.cert-badge{font-size:11px;font-weight:700;padding:4px 11px;border-radius:14px;display:flex;align-items:center;gap:4px}
+.cert-who{background:#dcfce7;color:#15803d}
+.cert-eda{background:#dbeafe;color:#1d4ed8}
+.cert-iso{background:#f5f3ff;color:#6d28d9}
+.cert-ich{background:#fef9c3;color:#a16207}
+
+.head-actions{display:flex;gap:8px}
+.btn{height:38px;padding:0 16px;border-radius:9px;font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;cursor:pointer;border:none;font-family:inherit}
+.btn-primary{background:#1a56db;color:#fff}
+.btn-ghost{background:#fff;color:#0f172a;border:1px solid #e4e6eb}
+
+/* PHARMA SPECIALTIES BAR — unique to Drugbox, gradient strip */
+.specialty-bar{margin:16px 0;padding:12px 16px;background:linear-gradient(135deg,#0a1f4d,#1a56db);border-radius:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.specialty-label{font-size:10px;font-weight:800;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.5px}
+.specialty-tag{font-size:11.5px;font-weight:700;color:#fff;background:rgba(255,255,255,.15);padding:4px 11px;border-radius:14px}
+
+/* MARKET ACTIVITY STATS — unique to Drugbox */
+.market-activity{display:flex;gap:28px;margin-top:14px;padding-top:14px;border-top:1px solid #f0f4fb}
+.ma-stat .n{font-size:19px;font-weight:800;color:#0f172a}
+.ma-stat .l{font-size:11px;color:#64748b;margin-top:1px}
+
+/* TABS */
+.tabs{display:flex;gap:4px;border-top:1px solid #f0f4fb;margin-top:16px;padding-top:4px}
+.tab{padding:12px 16px;font-size:13px;font-weight:700;color:#64748b;cursor:pointer;border-bottom:3px solid transparent}
+.tab.active{color:#1a56db;border-bottom-color:#1a56db}
+
+/* GRID BELOW */
+.grid-2{display:grid;grid-template-columns:1fr 1.4fr;gap:16px;align-items:start}
+.card{background:#fff;border-radius:14px;border:1px solid #e4e6eb;padding:18px}
+.card-title{font-size:14px;font-weight:800;color:#0f172a;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+
+.info-row{display:flex;gap:11px;padding:10px 0;border-bottom:1px solid #f0f4fb;align-items:center}
+.info-row:last-child{border:none}
+.info-ico{width:34px;height:34px;border-radius:9px;background:#EBF2FF;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.info-label{font-size:10.5px;color:#94a3b8}
+.info-val{font-size:13px;font-weight:700;color:#0f172a}
+
+.bio-text{font-size:13.5px;color:#475569;line-height:1.7}
+
+/* MY LISTINGS embedded */
+.listing-row{display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid #f0f4fb}
+.listing-row:last-child{border:none}
+.listing-ico{width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,#EBF2FF,#DCE8FB);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.listing-title{font-size:12.5px;font-weight:700;color:#0f172a}
+.listing-meta{font-size:10.5px;color:#94a3b8;margin-top:1px}
+.listing-type{font-size:9px;font-weight:800;padding:2px 8px;border-radius:5px;text-transform:uppercase;margin-left:auto}
+.type-supply{background:#dcfce7;color:#15803d}
+.type-job{background:#dbeafe;color:#1d4ed8}
+
+/* POSTS TAB CONTENT (category-tagged, matching Home Feed) */
+.post{padding:14px 0;border-bottom:1px solid #f0f4fb}
+.post:last-child{border:none}
+.post-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.post-cat{font-size:9px;font-weight:800;padding:2px 9px;border-radius:12px;text-transform:uppercase;margin-left:auto}
+.cat-regulatory{background:#dbeafe;color:#1d4ed8}
+.cat-general{background:#f1f5f9;color:#475569}
+.post-time{font-size:11px;color:#94a3b8}
+.post-body{font-size:13px;color:#1c1e21;line-height:1.6}
+
+/* RTL support (added for Arabic) — pure additions */
+html[dir="rtl"] .av-sm { margin-left: 0; margin-right: auto; }
+html[dir="rtl"] .cover-edit { right: auto; left: 12px; }

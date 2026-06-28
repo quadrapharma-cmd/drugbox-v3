@@ -46,13 +46,29 @@ export async function contactJobPoster(jobId: string) {
 
   const { data: job } = await supabase
     .from('listings')
-    .select('user_id, title')
+    .select('user_id, title, role')
     .eq('id', jobId)
     .eq('category', 'job')
     .maybeSingle()
 
   if (!job) return { error: 'Job not found' }
   if (job.user_id === user.id) return { error: "This is your own posting" }
+
+  // BUG FIX: this used to return ids without ever creating a message, so
+  // clicking "Apply Now" / "Contact" silently did nothing and dropped the
+  // user on whichever thread happened to be first in their inbox.
+  const openingLine =
+    job.role === 'offering'
+      ? `Hi, I'd like to apply for "${job.title}". Could you share more details about the role?`
+      : `Hi, I saw your profile for "${job.title}". We may have an opening that fits — are you open to a quick chat?`
+
+  const { error: msgError } = await supabase.from('messages').insert({
+    sender_id: user.id,
+    receiver_id: job.user_id,
+    body: openingLine,
+    listing_id: jobId,
+  })
+  if (msgError) return { error: msgError.message }
 
   return { success: true, posterId: job.user_id, jobTitle: job.title }
 }

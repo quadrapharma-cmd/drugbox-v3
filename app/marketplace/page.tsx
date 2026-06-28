@@ -1,14 +1,8 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getListings } from '@/actions/listings'
-import Sidebar from '@/components/Sidebar'
-import Topbar from '@/components/Topbar'
-import MarketplaceClient from '@/components/MarketplaceClient'
-import styles from './marketplace.module.css'
-
-function initials(name: string) {
-  return name.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase()
-}
+import MarketplaceApproved from '@/components/MarketplaceApproved'
+import './market-approved.css'
 
 export default async function MarketplacePage() {
   const supabase = await createClient()
@@ -17,22 +11,11 @@ export default async function MarketplacePage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('name, headline, company')
+    .select('name')
     .eq('id', user.id)
     .maybeSingle()
 
-  const name = profile?.name || 'User'
   const { listings, currentUserId } = await getListings({ category: 'all' })
 
-  return (
-    <div className={styles.shell}>
-      <Sidebar userName={name} userHeadline={profile?.headline || profile?.company || 'Member'} userInitials={initials(name)} />
-      <div className={styles.main}>
-        <Topbar />
-        <div className={styles.wrap}>
-          <MarketplaceClient initialListings={listings || []} currentUserId={currentUserId || user.id} />
-        </div>
-      </div>
-    </div>
-  )
+  return <MarketplaceApproved userName={profile?.name || 'User'} listings={listings || []} currentUserId={currentUserId || user.id} />
 }

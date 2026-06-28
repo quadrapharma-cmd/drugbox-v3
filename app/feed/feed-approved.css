@@ -1,0 +1,111 @@
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f0f4fb;color:#1c1e21;font-size:14px}
+.app-shell{display:flex;min-height:100vh}
+
+/* LEFT SIDEBAR */
+.sidebar{width:248px;background:#fff;border-right:1px solid #e4e6eb;display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:50}
+.sb-brand{display:flex;align-items:center;gap:10px;padding:18px 18px 14px}
+.sb-brand-mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#0a1f4d,#1a56db);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:15px}
+.sb-brand-name{font-size:17px;font-weight:800;color:#1a56db}
+.sb-profile{display:flex;align-items:center;gap:10px;padding:10px 14px;margin:0 10px 10px;border-radius:10px;cursor:pointer;background:#f0f4fb}
+.sb-profile:hover{background:#EBF2FF}
+.sb-av{width:38px;height:38px;border-radius:50%;background:#1a56db;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
+.sb-name{font-size:13px;font-weight:700;color:#0f172a}
+.sb-role{font-size:11px;color:#64748b}
+
+.nav{padding:6px 10px;flex:1;overflow-y:auto}
+.nav-label{font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:.6px;padding:12px 10px 6px}
+.nav-item{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:9px;color:#46566e;font-size:13.5px;font-weight:600;cursor:pointer;margin-bottom:1px}
+.nav-item:hover{background:#f0f4fb}
+.nav-item.active{background:#1a56db;color:#fff}
+.nav-item .ico{width:20px;text-align:center;font-size:16px}
+.nav-badge{margin-left:auto;background:#dc2626;color:#fff;font-size:10px;font-weight:800;padding:1px 6px;border-radius:8px}
+
+.sb-shortcuts{padding:10px 10px 16px;border-top:1px solid #f0f4fb}
+.shortcut-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:9px;cursor:pointer;font-size:12.5px;color:#46566e;font-weight:600}
+.shortcut-item:hover{background:#f0f4fb}
+.shortcut-ico{width:26px;height:26px;border-radius:7px;background:#EBF2FF;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.sb-privacy{padding:10px 18px;font-size:10.5px;color:#94a3b8;border-top:1px solid #f0f4fb}
+
+/* MAIN */
+.main{flex:1;margin-left:248px;display:flex;flex-direction:column;min-width:0}
+.ticker{background:linear-gradient(90deg,#0b1b3a,#13294d);color:#fff;padding:8px 0;overflow:hidden;white-space:nowrap;position:sticky;top:0;z-index:40}
+.ticker-track{display:inline-flex;gap:36px;animation:scroll-left 32s linear infinite;padding-left:24px}
+@keyframes scroll-left{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ticker-item{font-size:12px;color:#cbd5e1;display:flex;align-items:center;gap:6px}
+.ticker-item b{color:#60a5fa}
+
+.topbar{height:60px;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid #e4e6eb;display:flex;align-items:center;gap:14px;padding:0 24px;position:sticky;top:36px;z-index:39}
+.search-box{flex:1;max-width:420px;position:relative}
+.search-box input{width:100%;height:38px;border:1px solid #e4e6eb;border-radius:10px;padding:0 14px 0 36px;background:#f0f4fb;outline:none;font-size:13px}
+.search-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.5}
+.top-actions{display:flex;gap:6px;margin-left:auto}
+.icon-btn{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#64748b;cursor:pointer;position:relative;font-size:17px}
+.icon-btn:hover{background:#f0f4fb}
+.icon-dot{position:absolute;top:4px;right:5px;width:8px;height:8px;border-radius:50%;background:#dc2626}
+
+.content{display:grid;grid-template-columns:1fr 320px;gap:20px;max-width:1080px;margin:0 auto;padding:20px 24px;width:100%}
+
+/* COMPOSER */
+.composer{background:#fff;border-radius:14px;border:1px solid #e4e6eb;padding:16px;margin-bottom:16px}
+.composer-top{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px}
+.composer-input{flex:1;border:1px solid #e4e6eb;border-radius:20px;padding:10px 16px;font-size:13.5px;color:#64748b;background:#f0f4fb;cursor:text}
+.composer-actions{display:flex;gap:6px;border-top:1px solid #f0f4fb;padding-top:12px;flex-wrap:wrap}
+.composer-action{flex:1;min-width:90px;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;border-radius:8px;font-size:12px;font-weight:700;color:#64748b;cursor:pointer}
+.composer-action:hover{background:#f0f4fb}
+.composer-action.photo{color:#15803d}
+.composer-action.product{color:#1a56db}
+.composer-action.job{color:#a16207}
+.composer-action.regulatory{color:#6d28d9}
+
+/* POST CARD */
+.post{background:#fff;border-radius:14px;border:1px solid #e4e6eb;padding:16px;margin-bottom:14px}
+.post-head{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.post-av{width:42px;height:42px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
+.post-author{font-size:13.5px;font-weight:700;color:#0f172a;display:flex;align-items:center;gap:5px}
+.post-meta{font-size:11.5px;color:#94a3b8;margin-top:1px}
+.post-cat{margin-left:auto;font-size:10px;font-weight:800;padding:3px 10px;border-radius:14px;text-transform:uppercase}
+.cat-regulatory{background:#dbeafe;color:#1d4ed8}
+.cat-market{background:#dcfce7;color:#15803d}
+.cat-general{background:#f1f5f9;color:#475569}
+.cat-innovation{background:#f5f3ff;color:#6d28d9}
+.post-body{font-size:13.5px;color:#1c1e21;line-height:1.6;margin-bottom:12px}
+.post-stats{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-top:1px solid #f0f4fb;border-bottom:1px solid #f0f4fb;font-size:11.5px;color:#94a3b8;margin-bottom:6px}
+.post-actions{display:flex;gap:4px}
+.post-action-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;border-radius:8px;font-size:12.5px;font-weight:600;color:#64748b;cursor:pointer}
+.post-action-btn:hover{background:#f0f4fb}
+.post-action-btn.liked{color:#1a56db}
+
+/* RIGHT SIDEBAR */
+.r-card{background:#fff;border-radius:14px;border:1px solid #e4e6eb;padding:16px;margin-bottom:16px}
+.r-card-title{font-size:11px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+
+.sponsored-ad{display:flex;gap:10px;margin-bottom:14px;cursor:pointer}
+.sponsored-ad:last-child{margin-bottom:0}
+.ad-img{width:56px;height:56px;border-radius:9px;background:linear-gradient(135deg,#EBF2FF,#DCE8FB);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.ad-title{font-size:12.5px;font-weight:700;color:#0f172a;line-height:1.35}
+.ad-sub{font-size:11px;color:#94a3b8;margin-top:2px}
+.ad-tag{font-size:9px;color:#94a3b8;font-weight:600;text-transform:uppercase}
+
+.highlight-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f7f9fc}
+.highlight-row:last-child{border:none}
+.highlight-ico{width:32px;height:32px;border-radius:8px;background:#fffbeb;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.highlight-text{font-size:12px;color:#0f172a;font-weight:600}
+.highlight-sub{font-size:10.5px;color:#94a3b8}
+
+.market-stat-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;font-size:12px}
+.market-stat-label{color:#64748b}
+.market-stat-value{font-weight:800;color:#0f172a}
+.market-stat-value.up{color:#15803d}
+.market-stat-value.down{color:#dc2626}
+
+/* ============================================================
+   RTL support (added for Arabic) — pure additions, the original
+   LTR rules above are completely untouched. Only physical-position
+   properties need explicit mirroring; flex/grid order already
+   reverses automatically via the dir attribute.
+   ============================================================ */
+html[dir="rtl"] .sidebar { left: auto; right: 0; border-right: none; border-left: 1px solid #e4e6eb; }
+html[dir="rtl"] .main { margin-left: 0; margin-right: 248px; }
+html[dir="rtl"] .sb-privacy { text-align: right; }

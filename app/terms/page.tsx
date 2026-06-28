@@ -3,7 +3,9 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { TERMS_SECTIONS } from './terms-content'
-import styles from './terms.module.css'
+import './terms-approved.css'
+
+const AR_NUM = ['', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩', '١٠', '١١', '١٢', '١٣', '١٤']
 
 export default function TermsPage() {
   const router = useRouter()
@@ -16,7 +18,6 @@ export default function TermsPage() {
     if (!canAgree) return
     router.push('/login')
   }
-
   function handleDecline() {
     if (confirm('هل أنت متأكد؟ بدون الموافقة على الاتفاقية لا يمكن إنشاء حساب على Drugbox.')) {
       router.push('/login')
@@ -24,63 +25,42 @@ export default function TermsPage() {
   }
 
   return (
-    <div className={styles.page} dir="rtl">
-      <div className={styles.topbar}>
-        <div className={styles.brand}>DRUGBOX</div>
-      </div>
+    <div dir="rtl">
+      <div className="topbar"><div className="brand">DRUGBOX</div></div>
 
-      <div className={styles.wrap}>
-        <div className={styles.pageTitle}>📋 اتفاقية المستخدم وشروط الاستخدام</div>
-        <div className={styles.pageSub}>آخر تحديث: 23 يونيو 2026 — برجاء القراءة بعناية قبل إنشاء حسابك</div>
+      <div className="page-wrap">
+        <div className="page-title">📋 اتفاقية المستخدم وشروط الاستخدام</div>
+        <div className="page-sub">آخر تحديث: 23 يونيو 2026 — برجاء القراءة بعناية قبل إنشاء حسابك</div>
 
-        <div className={styles.toc}>
-          <div className={styles.tocTitle}>محتويات الاتفاقية</div>
+        <div className="toc">
+          <div className="toc-title">محتويات الاتفاقية</div>
           {TERMS_SECTIONS.map((s, i) => (
-            <a key={s.id} className={styles.tocItem} href={`#${s.id}`}>
-              {i + 1}. {s.title}
-            </a>
+            <a key={s.id} className="toc-item" href={`#${s.id}`}>{AR_NUM[i + 1]}. {s.title}</a>
           ))}
         </div>
 
         {TERMS_SECTIONS.map((s, i) => (
-          <div key={s.id} className={styles.section} id={s.id}>
-            <span className={styles.sectionNum}>القسم {i + 1}</span>
-            <div className={styles.sectionTitle}>{s.title}</div>
-            <div
-              className={styles.sectionBody}
-              dangerouslySetInnerHTML={{ __html: s.bodyHtml }}
-            />
+          <div className="section" id={s.id} key={s.id}>
+            <span className="section-num">القسم {AR_NUM[i + 1]}</span>
+            <div className="section-title">{s.title}</div>
+            <div className="section-body" dangerouslySetInnerHTML={{ __html: s.bodyHtml }} />
           </div>
         ))}
-
-        <div className={styles.metaNote}>© 2026 Drugbox — جميع الحقوق محفوظة</div>
       </div>
 
-      <div className={styles.consentBar}>
-        <div className={styles.consentInner}>
-          <label className={styles.consentRow}>
-            <input type="checkbox" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} />
-            <span className={styles.consentText}>
-              قرأت وأوافق على اتفاقية المستخدم وسياسة الخصوصية الخاصة بـ Drugbox
-            </span>
-          </label>
-          <label className={styles.consentRow}>
-            <input type="checkbox" checked={confirmAge} onChange={(e) => setConfirmAge(e.target.checked)} />
-            <span className={styles.consentText}>
-              أؤكد أن عمري 18 عامًا أو أكثر، وأن البيانات التي سأقدمها صحيحة
-            </span>
-          </label>
-          <div className={styles.consentActions}>
-            <button className={styles.btnDecline} onClick={handleDecline}>
-              رفض والخروج
-            </button>
-            <button
-              className={`${styles.btnAgree} ${canAgree ? styles.btnAgreeOn : ''}`}
-              onClick={handleAgree}
-              disabled={!canAgree}
-            >
-              أوافق وأنشئ حسابي ←
-            </button>
+      <div className="consent-bar">
+        <div className="consent-inner">
+          <div className="consent-row" onClick={() => setAgreeTerms(!agreeTerms)}>
+            <div className={`consent-checkbox ${agreeTerms ? 'checked' : ''}`}>{agreeTerms ? '✓' : ''}</div>
+            <div className="consent-text">قرأت وأوافق على <a href="#s1">اتفاقية المستخدم</a> وسياسة الخصوصية الخاصة بـ Drugbox</div>
+          </div>
+          <div className="consent-row" onClick={() => setConfirmAge(!confirmAge)}>
+            <div className={`consent-checkbox ${confirmAge ? 'checked' : ''}`}>{confirmAge ? '✓' : ''}</div>
+            <div className="consent-text">أؤكد أن عمري 18 عامًا أو أكثر، وأن البيانات التي سأقدمها صحيحة</div>
+          </div>
+          <div className="consent-actions">
+            <button className="btn-decline" onClick={handleDecline}>رفض والخروج</button>
+            <button className={`btn-agree ${canAgree ? 'enabled' : ''}`} onClick={handleAgree} disabled={!canAgree}>أوافق وأنشئ حسابي ←</button>
           </div>
         </div>
       </div>

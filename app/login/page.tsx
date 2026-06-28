@@ -1,179 +1,101 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { useLang } from '@/lib/i18n/LanguageProvider'
-import LangToggle from '@/components/LangToggle'
-import styles from './login.module.css'
+import LangSwitch from '@/components/LangSwitch'
+import './login-approved.css'
 
 export default function LoginPage() {
   const router = useRouter()
   const supabase = createClient()
   const { t } = useLang()
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('haytham@drugbox.app')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const [showSplash, setShowSplash] = useState(true)
+  const [splashEnded, setSplashEnded] = useState(false)
+  const endedRef = useRef(false)
   const videoRef = useRef<HTMLVideoElement>(null)
 
-  // Splash: play intro video, then fade to login. Safety timer in case video fails.
+  function endSplash() {
+    if (endedRef.current) return
+    endedRef.current = true
+    setSplashEnded(true)
+  }
+
   useEffect(() => {
-    const v = videoRef.current
-    if (!v) {
-      setShowSplash(false)
-      return
-    }
-    const end = () => setShowSplash(false)
-    v.addEventListener('ended', end)
-    const fallback = setTimeout(end, 5000) // safety: never trap the user on the splash
-    return () => {
-      v.removeEventListener('ended', end)
-      clearTimeout(fallback)
-    }
+    const timer = setTimeout(endSplash, 5500)
+    return () => clearTimeout(timer)
   }, [])
 
-  async function handleLogin() {
-    setError('')
-    if (!email || !password) {
-      setError('Please enter your email and password')
-      return
-    }
+  async function handleSignIn() {
+    if (!email || !password) { setError('Please enter your email and password'); return }
     setLoading(true)
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) {
-      setError(error.message)
-      setLoading(false)
-      return
-    }
+    setError('')
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
+    setLoading(false)
+    if (signInError) { setError(signInError.message); return }
     router.push('/feed')
     router.refresh()
   }
 
   return (
     <>
-      {showSplash && (
-        <div className={styles.splash}>
-          <video
-            ref={videoRef}
-            className={styles.splashVideo}
-            autoPlay
-            muted
-            playsInline
-          >
-            <source src="/intro-video.mp4" type="video/mp4" />
-          </video>
-          <div className={styles.splashOverlay} />
-          <button className={styles.skipBtn} onClick={() => setShowSplash(false)}>
-            Skip →
-          </button>
-          <div className={styles.splashBrand}>
-            <div className={styles.splashBrandText}>DRUGBOX</div>
-            <div className={styles.splashBrandTag}>Pharma Professional Network</div>
-          </div>
-        </div>
-      )}
-      <div className={styles.wrap}>
-      {/* HERO SIDE */}
-      <div className={styles.hero}>
-        <div className={styles.dbOverlay} />
-        <div className={styles.dbContent}>
-          <div style={{ marginBottom: 22 }}>
-            <div style={{ fontSize: 26, fontWeight: 900, color: '#fff', letterSpacing: 2 }}>
-              DRUGBOX
-            </div>
-            <div className={styles.dbTagline}>Pharma Professional Network</div>
-          </div>
-          <div className={styles.dbH1}>
-            The professional network for the pharmaceutical industry
-          </div>
-          <div className={styles.dbP}>
-            Connect with manufacturers, suppliers, and regulatory experts across Egypt, the
-            GCC, and Africa.
-          </div>
-          <div className={styles.dbFeat}>
-            <div className={styles.dbFic}>🛒</div>
-            <span>Source APIs, excipients, and equipment</span>
-          </div>
-          <div className={styles.dbFeat}>
-            <div className={styles.dbFic}>🤝</div>
-            <span>Build verified professional connections</span>
-          </div>
-          <div className={styles.dbFeat}>
-            <div className={styles.dbFic}>📋</div>
-            <span>Stay ahead on regulatory developments</span>
-          </div>
-          <div className={styles.dbStats}>
-            <div>
-              <div className={styles.dbSn}>150K+</div>
-              <div className={styles.dbSl}>Professionals</div>
-            </div>
-            <div>
-              <div className={styles.dbSn}>20+</div>
-              <div className={styles.dbSl}>Countries</div>
-            </div>
-            <div>
-              <div className={styles.dbSn}>8</div>
-              <div className={styles.dbSl}>Categories</div>
-            </div>
-          </div>
+      <div id="splashScreen" className={splashEnded ? 'fade-out' : ''} style={splashEnded ? { display: 'none' } : {}}>
+        <video id="introVideo" autoPlay muted playsInline ref={videoRef} onEnded={endSplash}>
+          <source src="/intro-video.mp4" type="video/mp4" />
+        </video>
+        <div className="splash-overlay"></div>
+        <button className="skip-btn" onClick={endSplash}>{t('auth.skip')} →</button>
+        <div className="splash-brand">
+          <div className="splash-brand-text">DRUGBOX</div>
+          <div className="splash-tagline">{t('auth.tagline')}</div>
         </div>
       </div>
 
-      {/* FORM SIDE */}
-      <div className={styles.dbForm}>
-        <div className={styles.dbBox}>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8 }}>
-            <LangToggle compact />
-          </div>
-          <div style={{ fontSize: 24, fontWeight: 900, color: '#1a56db', letterSpacing: 1, marginBottom: 16 }}>
-            DRUGBOX
-          </div>
-          <div className={styles.dbFtitle}>{t('auth.welcomeBack')}</div>
-          <div className={styles.dbFsub}>{t('auth.signinSub')}</div>
-
-          {error && <div className={styles.dbErr}>{error}</div>}
-
-          <div className={styles.dbField}>
-            <label>{t('auth.email')}</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
-              placeholder="you@company.com"
-            />
-          </div>
-          <div className={styles.dbField}>
-            <label>{t('auth.password')}</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
-              placeholder="••••••••"
-            />
-          </div>
-          <button className={styles.dbBtn} onClick={handleLogin} disabled={loading}>
-            {loading ? t('auth.signingIn') : t('auth.signIn')}
-          </button>
-
-          <div className={styles.dbDemo}>
-            <div className="lbl" style={{ fontSize: 10, color: '#1a56db', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 4 }}>{t('auth.demoAccount')}</div>
-            <div className="val" style={{ fontSize: 12, fontWeight: 600, color: '#0f172a', lineHeight: 1.6 }}>
-              haytham@drugbox.app
-              <br />
-              Drugbox2026!
+      <div id="loginPage" className={splashEnded ? 'show' : ''}>
+        <div className="hero">
+          <div className="db-overlay"></div>
+          <div className="db-content">
+            <div className="db-brand">
+              <div style={{ fontSize: 26, fontWeight: 900, color: '#fff', letterSpacing: 2 }}>DRUGBOX</div>
+              <div className="db-tagline">{t('auth.tagline')}</div>
+            </div>
+            <div className="db-h1">{t('auth.heroLogin')}</div>
+            <div className="db-p">{t('auth.heroSub')}</div>
+            <div className="db-feat"><div className="db-fic">⚗️</div><span>{t('auth.feat1')}</span></div>
+            <div className="db-feat"><div className="db-fic">📋</div><span>{t('auth.feat2')}</span></div>
+            <div className="db-feat"><div className="db-fic">🏭</div><span>{t('auth.feat3')}</span></div>
+            <div className="db-feat"><div className="db-fic">💼</div><span>{t('auth.feat4')}</span></div>
+            <div className="db-feat"><div className="db-fic">🎓</div><span>{t('auth.feat5')}</span></div>
+            <div className="db-stats">
+              <div><div className="db-sn">150K+</div><div className="db-sl">{t('auth.statPros')}</div></div>
+              <div><div className="db-sn">1,200+</div><div className="db-sl">{t('auth.statListings')}</div></div>
+              <div><div className="db-sn">18</div><div className="db-sl">{t('auth.statCountries')}</div></div>
             </div>
           </div>
+        </div>
 
-          <div className={styles.dbFooter}>
-            {t('auth.noAccount')} <Link href="/signup">{t('auth.createOne')}</Link>
+        <div className="db-form">
+          <div className="db-box">
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}><LangSwitch /></div>
+            <div style={{ fontSize: 22, fontWeight: 900, color: '#1a56db', marginBottom: 6 }}>DRUGBOX</div>
+            <div className="db-ftitle">{t('auth.welcomeBack')}</div>
+            <div className="db-fsub">{t('auth.signInSub')}</div>
+            {error && <div style={{ background: '#fef2f2', color: '#dc2626', padding: '10px 14px', borderRadius: 10, fontSize: 13, marginBottom: 12 }}>{error}</div>}
+            <div className="db-field"><label>{t('auth.email')}</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSignIn()} placeholder="you@company.com" /></div>
+            <div className="db-field"><label>{t('auth.password')}</label><input type="password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSignIn()} placeholder="••••••••" /></div>
+            <button className="db-btn" onClick={handleSignIn} disabled={loading}>{loading ? t('auth.signingIn') : t('auth.signIn')}</button>
+            <div className="db-footer">{t('auth.noAccount')} <Link href="/signup">{t('auth.createOne')}</Link></div>
+            <div className="db-demo">
+              <div className="lbl">{t('auth.demoAccount')}</div>
+              <div className="val">haytham@drugbox.app<br />Drugbox2026!</div>
+            </div>
           </div>
         </div>
-      </div>
       </div>
     </>
   )

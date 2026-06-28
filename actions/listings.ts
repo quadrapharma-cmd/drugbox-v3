@@ -161,8 +161,20 @@ export async function inquireAboutListing(listingId: string) {
   if (!listing) return { error: 'Listing not found' }
   if (listing.user_id === user.id) return { error: "You can't inquire about your own listing" }
 
-  // Increment inquiry count
+  // Increment inquiry count (best-effort, never blocks the inquiry itself)
   await supabase.rpc('increment_listing_inquiries', { p_listing_id: listingId }).then(() => {}, () => {})
+
+  // BUG FIX: this used to only return ids without ever creating a message,
+  // so clicking "Contact" silently did nothing and dropped the user on
+  // whichever thread happened to be first in their inbox. Now it actually
+  // opens the conversation with an opening message tied to the listing.
+  const { error: msgError } = await supabase.from('messages').insert({
+    sender_id: user.id,
+    receiver_id: listing.user_id,
+    body: `Hi, I'm interested in "${listing.title}". Could you share more details?`,
+    listing_id: listingId,
+  })
+  if (msgError) return { error: msgError.message }
 
   return { success: true, sellerId: listing.user_id, listingTitle: listing.title }
 }

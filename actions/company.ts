@@ -4,6 +4,45 @@ import { createClient } from '@/lib/supabase/server'
 import { sanitizeText } from '@/lib/validation'
 import { revalidatePath } from 'next/cache'
 
+// BUG FIX: "Follow" buttons on the Company page had no backend at all —
+// these three actions add real follow/unfollow + status checking.
+export async function getFollowStatus(companyId: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Not authenticated', following: false, count: 0 }
+
+  const [{ data: existing }, { data: count }] = await Promise.all([
+    supabase.from('company_followers').select('id').eq('company_id', companyId).eq('user_id', user.id).maybeSingle(),
+    supabase.rpc('get_company_followers_count', { p_company_id: companyId }),
+  ])
+
+  return { following: !!existing, count: count ?? 0 }
+}
+
+export async function followCompany(companyId: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Not authenticated' }
+
+  const { error } = await supabase.from('company_followers').insert({ company_id: companyId, user_id: user.id })
+  if (error) return { error: error.message }
+
+  revalidatePath('/company')
+  return { success: true }
+}
+
+export async function unfollowCompany(companyId: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Not authenticated' }
+
+  const { error } = await supabase.from('company_followers').delete().eq('company_id', companyId).eq('user_id', user.id)
+  if (error) return { error: error.message }
+
+  revalidatePath('/company')
+  return { success: true }
+}
+
 // Get a company page by id, or the first company the user manages (for the demo /company route)
 export async function getCompany(companyId?: string) {
   const supabase = await createClient()
@@ -111,6 +150,31 @@ export async function updateCompany(companyId: string, form: {
 
   const { error } = await supabase.from('companies').update(clean).eq('id', companyId)
   if (error) return { error: error.message }
+  revalidatePath('/company')
+  return { success: true }
+}
+
+// Delete a company page entirely — RLS also enforces admin-only at the DB
+// level (companies_delete_admin_only), this is a defence-in-depth check.
+export async function deleteCompany(companyId: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Not authenticated' }
+
+  const { data: membership } = await supabase
+    .from('company_team')
+    .select('role')
+    .eq('company_id', companyId)
+    .eq('user_id', user.id)
+    .maybeSingle()
+
+  if (!membership || membership.role !== 'admin') {
+    return { error: 'Only an Admin can delete this company page' }
+  }
+
+  const { error } = await supabase.from('companies').delete().eq('id', companyId)
+  if (error) return { error: error.message }
+
   revalidatePath('/company')
   return { success: true }
 }

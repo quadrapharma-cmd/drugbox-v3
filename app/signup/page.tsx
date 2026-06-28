@@ -4,11 +4,14 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import styles from '../login/login.module.css'
+import { useLang } from '@/lib/i18n/LanguageProvider'
+import LangSwitch from '@/components/LangSwitch'
+import '../login/login-approved.css'
 
 export default function SignupPage() {
   const router = useRouter()
   const supabase = createClient()
+  const { t } = useLang()
   const [name, setName] = useState('')
   const [headline, setHeadline] = useState('')
   const [company, setCompany] = useState('')
@@ -19,116 +22,63 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false)
 
   async function handleSignup() {
-    setError('')
-    if (!name || !email || !password) {
-      setError('Name, email, and password are required')
-      return
-    }
-    if (password.length < 8) {
-      setError('Password must be at least 8 characters')
-      return
-    }
-    if (!agreed) {
-      setError('You must agree to the User Agreement to create an account')
-      return
-    }
+    if (!name || !email || !password) { setError('Name, email, and password are required'); return }
+    if (!agreed) { setError('Please agree to the User Agreement to continue'); return }
     setLoading(true)
-    const { error } = await supabase.auth.signUp({
+    setError('')
+    const { error: signUpError } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        data: { name },
-      },
+      options: { data: { name, headline, company } },
     })
-    if (error) {
-      setError(error.message)
-      setLoading(false)
-      return
-    }
-    // Enrich the profile created by the trigger
-    const { data: { user } } = await supabase.auth.getUser()
-    if (user) {
-      await supabase.from('profiles').update({ headline, company }).eq('id', user.id)
-    }
+    setLoading(false)
+    if (signUpError) { setError(signUpError.message); return }
     router.push('/feed')
     router.refresh()
   }
 
   return (
-    <div className={styles.wrap}>
-      <div className={styles.hero}>
-        <div className={styles.dbOverlay} />
-        <div className={styles.dbContent}>
-          <div style={{ marginBottom: 22 }}>
-            <div style={{ fontSize: 26, fontWeight: 900, color: '#fff', letterSpacing: 2 }}>
-              DRUGBOX
-            </div>
-            <div className={styles.dbTagline}>Pharma Professional Network</div>
+    <div id="loginPage" className="show">
+      <div className="hero">
+        <div className="db-overlay"></div>
+        <div className="db-content">
+          <div className="db-brand">
+            <div style={{ fontSize: 26, fontWeight: 900, color: '#fff', letterSpacing: 2 }}>DRUGBOX</div>
+            <div className="db-tagline">{t('auth.tagline')}</div>
           </div>
-          <div className={styles.dbH1}>Join the pharmaceutical professional network</div>
-          <div className={styles.dbP}>
-            Create your account to source products, post listings, and connect with verified
-            industry professionals.
-          </div>
-          <div className={styles.dbFeat}>
-            <div className={styles.dbFic}>✓</div>
-            <span>Verified professional profiles</span>
-          </div>
-          <div className={styles.dbFeat}>
-            <div className={styles.dbFic}>🌍</div>
-            <span>Reach buyers across MENA &amp; Africa</span>
+          <div className="db-h1">{t('auth.heroSignup')}</div>
+          <div className="db-p">{t('auth.heroSub')}</div>
+          <div className="db-feat"><div className="db-fic">⚗️</div><span>{t('auth.feat1')}</span></div>
+          <div className="db-feat"><div className="db-fic">📋</div><span>{t('auth.feat2')}</span></div>
+          <div className="db-feat"><div className="db-fic">🏭</div><span>{t('auth.feat3')}</span></div>
+          <div className="db-stats">
+            <div><div className="db-sn">150K+</div><div className="db-sl">{t('auth.statPros')}</div></div>
+            <div><div className="db-sn">1,200+</div><div className="db-sl">{t('auth.statListings')}</div></div>
+            <div><div className="db-sn">18</div><div className="db-sl">{t('auth.statCountries')}</div></div>
           </div>
         </div>
       </div>
 
-      <div className={styles.dbForm}>
-        <div className={styles.dbBox}>
-          <div style={{ fontSize: 24, fontWeight: 900, color: '#1a56db', letterSpacing: 1, marginBottom: 16 }}>
-            DRUGBOX
+      <div className="db-form">
+        <div className="db-box">
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}><LangSwitch /></div>
+          <div style={{ fontSize: 22, fontWeight: 900, color: '#1a56db', marginBottom: 6 }}>DRUGBOX</div>
+          <div className="db-ftitle">{t('auth.createAccount')}</div>
+          <div className="db-fsub">{t('auth.joinSub')}</div>
+          {error && <div style={{ background: '#fef2f2', color: '#dc2626', padding: '10px 14px', borderRadius: 10, fontSize: 13, marginBottom: 12 }}>{error}</div>}
+          <div className="db-field"><label>{t('auth.fullName')}</label><input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Dr. Jane Smith" /></div>
+          <div className="db-field"><label>{t('auth.headline')}</label><input type="text" value={headline} onChange={(e) => setHeadline(e.target.value)} placeholder="Regulatory Affairs Manager" /></div>
+          <div className="db-field"><label>{t('auth.company')}</label><input type="text" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Acme Pharma" /></div>
+          <div className="db-field"><label>{t('auth.email')}</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" /></div>
+          <div className="db-field"><label>{t('auth.password')}</label><input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="At least 6 characters" /></div>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, margin: '4px 0 14px' }}>
+            <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} style={{ marginTop: 3 }} />
+            <label style={{ fontSize: 12.5, color: '#3c3c41', lineHeight: 1.5 }}>
+              {t('auth.agreeToThe')} <Link href="/terms" style={{ color: '#1a56db', fontWeight: 700 }}>{t('auth.userAgreement')}</Link>
+            </label>
           </div>
-          <div className={styles.dbFtitle}>Create your account</div>
-          <div className={styles.dbFsub}>Join Drugbox in under a minute</div>
-
-          {error && <div className={styles.dbErr}>{error}</div>}
-
-          <div className={styles.dbField}>
-            <label>Full name</label>
-            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Dr. Jane Smith" />
-          </div>
-          <div className={styles.dbField}>
-            <label>Headline</label>
-            <input value={headline} onChange={(e) => setHeadline(e.target.value)} placeholder="Regulatory Affairs Manager" />
-          </div>
-          <div className={styles.dbField}>
-            <label>Company</label>
-            <input value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Acme Pharma" />
-          </div>
-          <div className={styles.dbField}>
-            <label>Email</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" />
-          </div>
-          <div className={styles.dbField}>
-            <label>Password</label>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="At least 8 characters" />
-          </div>
-
-          <label style={{ display: 'flex', alignItems: 'flex-start', gap: 8, margin: '10px 0', fontSize: 12, color: '#475569', cursor: 'pointer' }}>
-            <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} style={{ marginTop: 2 }} />
-            <span>
-              I agree to the{' '}
-              <Link href="/terms" style={{ color: '#1a56db', fontWeight: 600 }}>
-                User Agreement
-              </Link>
-            </span>
-          </label>
-
-          <button className={styles.dbBtn} onClick={handleSignup} disabled={loading}>
-            {loading ? 'Creating…' : 'Create Account'}
-          </button>
-
-          <div className={styles.dbFooter}>
-            Already have an account? <Link href="/login">Sign in</Link>
-          </div>
+          <button className="db-btn" onClick={handleSignup} disabled={loading}>{loading ? t('auth.creating') : t('auth.createAccountBtn')}</button>
+          <div className="db-footer">{t('auth.alreadyHaveAccount')} <Link href="/login">{t('auth.signin')}</Link></div>
         </div>
       </div>
     </div>
