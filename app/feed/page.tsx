@@ -2,7 +2,6 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getFeed } from '@/actions/posts'
 import FeedShell from '@/components/FeedShell'
-import './feed-approved.css'
 
 function initials(name: string) {
   return name.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase()

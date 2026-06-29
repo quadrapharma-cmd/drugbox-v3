@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { getCompany } from '@/actions/company'
 import CompanyApproved from '@/components/CompanyApproved'
-import './company-approved.css'
 
 export default async function CompanyPage() {
   const supabase = await createClient()

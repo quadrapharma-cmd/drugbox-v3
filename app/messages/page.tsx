@@ -2,7 +2,6 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getThreads } from '@/actions/messages'
 import MessagesApproved from '@/components/MessagesApproved'
-import './messages-approved.css'
 
 // BUG FIX: previously there was no way to deep-link into a specific
 // conversation (e.g. after clicking "Contact" on a listing or job), so the

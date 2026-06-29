@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createPost } from '@/actions/posts'
+import styles from '@/app/feed/feed-approved.module.css'
 
 export default function FeedComposer({ inits }: { inits: string }) {
   const router = useRouter()
@@ -29,12 +30,12 @@ export default function FeedComposer({ inits }: { inits: string }) {
   }
 
   return (
-    <div className="composer">
-      <div className="composer-top">
-        <div className="sb-av" style={{ width: 40, height: 40 }}>{inits}</div>
+    <div className={styles['composer']}>
+      <div className={styles['composer-top']}>
+        <div className={styles['sb-av']} style={{ width: 40, height: 40 }}>{inits}</div>
         {open ? (
           <textarea
-            className="composer-input"
+            className={styles['composer-input']}
             style={{ width: '100%', border: 'none', outline: 'none', resize: 'none', fontFamily: 'inherit', fontSize: 14 }}
             value={body}
             onChange={(e) => setBody(e.target.value)}
@@ -43,31 +44,31 @@ export default function FeedComposer({ inits }: { inits: string }) {
             autoFocus
           />
         ) : (
-          <div className="composer-input" onClick={() => setOpen(true)} style={{ cursor: 'text' }}>
+          <div className={styles['composer-input']} onClick={() => setOpen(true)} style={{ cursor: 'text' }}>
             Share an update, ask a question...
           </div>
         )}
       </div>
-      <div className="composer-actions">
+      <div className={styles['composer-actions']}>
         {open ? (
           <>
-            <select className="composer-action" style={{ border: '1px solid #e4e6eb', cursor: 'pointer' }} value={category} onChange={(e) => setCategory(e.target.value)}>
+            <select className={styles['composer-action']} style={{ border: '1px solid #e4e6eb', cursor: 'pointer' }} value={category} onChange={(e) => setCategory(e.target.value)}>
               <option value="general">General</option>
               <option value="regulatory">Regulatory</option>
               <option value="market">Market</option>
               <option value="innovation">Innovation</option>
               <option value="job">Job</option>
             </select>
-            <div className="composer-action" style={{ background: '#1a56db', color: '#fff', cursor: posting ? 'wait' : 'pointer', marginLeft: 'auto' }} onClick={handlePost}>
+            <div className={styles['composer-action']} style={{ background: '#1a56db', color: '#fff', cursor: posting ? 'wait' : 'pointer', marginLeft: 'auto' }} onClick={handlePost}>
               {posting ? 'Posting…' : 'Post'}
             </div>
           </>
         ) : (
           <>
-            <div className="composer-action photo">📷 Photo</div>
-            <div className="composer-action product" onClick={() => setOpen(true)}>🛒 List Product</div>
-            <div className="composer-action job" onClick={() => setOpen(true)}>💼 Post Job</div>
-            <div className="composer-action regulatory" onClick={() => setOpen(true)}>📋 Regulatory</div>
+            <div className={`${styles['composer-action']} ${styles['photo']}`}>📷 Photo</div>
+            <div className={`${styles['composer-action']} ${styles['product']}`} onClick={() => setOpen(true)}>🛒 List Product</div>
+            <div className={`${styles['composer-action']} ${styles['job']}`} onClick={() => setOpen(true)}>💼 Post Job</div>
+            <div className={`${styles['composer-action']} ${styles['regulatory']}`} onClick={() => setOpen(true)}>📋 Regulatory</div>
           </>
         )}
       </div>

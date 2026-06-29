@@ -2,7 +2,6 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getListings } from '@/actions/listings'
 import MarketplaceApproved from '@/components/MarketplaceApproved'
-import './market-approved.css'
 
 export default async function MarketplacePage() {
   const supabase = await createClient()

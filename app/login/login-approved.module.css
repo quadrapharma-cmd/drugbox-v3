@@ -1,6 +1,6 @@
 
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:#000;overflow:hidden}
+
+
 
 /* ═══ SPLASH / INTRO VIDEO LAYER ═══ */
 #splashScreen{position:fixed;inset:0;z-index:1000;background:#000;display:flex;align-items:center;justify-content:center;transition:opacity .8s ease}
@@ -57,3 +57,7 @@ body{font-family:'Inter',sans-serif;background:#000;overflow:hidden}
 .db-demo .val{font-size:12px;font-weight:600;color:#0f172a;line-height:1.6}
 
 @media(max-width:768px){#loginPage{grid-template-columns:1fr}.hero{display:none}}
+
+/* Scoped replacement for the removed global body rule — preserves the
+   black splash-screen background for this page only. */
+.pageRoot { background:#000; font-family:'Inter',sans-serif; overflow:hidden; min-height:100vh; }

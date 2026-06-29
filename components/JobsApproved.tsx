@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { contactJobPoster } from '@/actions/jobs'
 import { useLang } from '@/lib/i18n/LanguageProvider'
 import LangSwitch from '@/components/LangSwitch'
+import styles from '@/app/jobs/jobs-approved.module.css'
 
 const LEVEL_ICON: Record<string, string> = {
   exec: '👑', senior: '🧭', mid: '🎯', junior: '⚙️', entry: '🌱',
@@ -35,110 +36,110 @@ export default function JobsApproved({ hiringJobs, seekingJobs, currentUserId }:
 
   return (
     <>
-      <div className="topbar">
+      <div className={styles['topbar']}>
         <Link href="/feed" style={{ fontSize: 20, fontWeight: 900, color: '#1a56db', textDecoration: 'none' }}>DRUGBOX</Link>
-        <div className="sw"><span className="si-ic">🔍</span><input className="si" placeholder={t('feed.searchPlaceholder')} /></div>
-        <div className="tnav-wrap">
-          <Link href="/feed" className="tnav" style={{ textDecoration: 'none' }}>🏠</Link>
-          <Link href="/marketplace" className="tnav" style={{ textDecoration: 'none' }}>🛒</Link>
-          <Link href="/groups" className="tnav" style={{ textDecoration: 'none' }}>👥</Link>
-          <Link href="/messages" className="tnav" style={{ textDecoration: 'none' }}>💬</Link>
-          <div className="tnav" style={{ opacity: 0.5, cursor: 'not-allowed' }} title={t('common.notBuiltYet')}>🔔</div>
+        <div className={styles['sw']}><span className={styles['si-ic']}>🔍</span><input className={styles['si']} placeholder={t('feed.searchPlaceholder')} /></div>
+        <div className={styles['tnav-wrap']}>
+          <Link href="/feed" className={styles['tnav']} style={{ textDecoration: 'none' }}>🏠</Link>
+          <Link href="/marketplace" className={styles['tnav']} style={{ textDecoration: 'none' }}>🛒</Link>
+          <Link href="/groups" className={styles['tnav']} style={{ textDecoration: 'none' }}>👥</Link>
+          <Link href="/messages" className={styles['tnav']} style={{ textDecoration: 'none' }}>💬</Link>
+          <div className={styles['tnav']} style={{ opacity: 0.5, cursor: 'not-allowed' }} title={t('common.notBuiltYet')}>🔔</div>
         </div>
         <LangSwitch />
-        <Link href="/profile" className="av" style={{ background: '#1a56db', width: 36, height: 36, fontSize: 13, textDecoration: 'none' }}>{initials(currentUserId === 'me' ? 'You' : 'U')}</Link>
+        <Link href="/profile" className={styles['av']} style={{ background: '#1a56db', width: 36, height: 36, fontSize: 13, textDecoration: 'none' }}>{initials(currentUserId === 'me' ? 'You' : 'U')}</Link>
       </div>
 
-      <div className="hero">
-        <div className="hero-content">
+      <div className={styles['hero']}>
+        <div className={styles['hero-content']}>
           <div>
-            <div className="hero-eyebrow">{t('jobs.careers')}</div>
-            <div className="hero-title">💼 {t('jobs.title')}</div>
-            <div className="hero-sub">{t('jobs.subtitle')}</div>
+            <div className={styles['hero-eyebrow']}>{t('jobs.careers')}</div>
+            <div className={styles['hero-title']}>💼 {t('jobs.title')}</div>
+            <div className={styles['hero-sub']}>{t('jobs.subtitle')}</div>
           </div>
-          <div className="mode-toggle">
-            <div className={`mode-opt ${mode === 'hiring' ? 'active' : ''}`} onClick={() => setMode('hiring')}>🏢 {t('jobs.imHiring')}</div>
-            <div className={`mode-opt ${mode === 'hunting' ? 'active' : ''}`} onClick={() => setMode('hunting')}>👤 {t('jobs.imJobSeeking')}</div>
+          <div className={styles['mode-toggle']}>
+            <div className={`${styles['mode-opt']} ${mode === 'hiring' ? styles['active'] : ''}`} onClick={() => setMode('hiring')}>🏢 {t('jobs.imHiring')}</div>
+            <div className={`${styles['mode-opt']} ${mode === 'hunting' ? styles['active'] : ''}`} onClick={() => setMode('hunting')}>👤 {t('jobs.imJobSeeking')}</div>
           </div>
         </div>
       </div>
 
-      <div className="intel-strip">
-        <div className="intel-item"><span className="intel-dot"></span> <b>{hiringJobs.length}</b> open positions across Egypt &amp; GCC</div>
-        <div className="intel-item">💼 <b>{hiringJobs.length}</b> jobs posted this week</div>
-        <div className="intel-item">👤 <b>{seekingJobs.length}</b> candidates available now</div>
+      <div className={styles['intel-strip']}>
+        <div className={styles['intel-item']}><span className={styles['intel-dot']}></span> <b>{hiringJobs.length}</b> open positions across Egypt &amp; GCC</div>
+        <div className={styles['intel-item']}>💼 <b>{hiringJobs.length}</b> jobs posted this week</div>
+        <div className={styles['intel-item']}>👤 <b>{seekingJobs.length}</b> candidates available now</div>
       </div>
 
-      <div className="cat-filter">
-        <div className="cf-tag on">{t('jobs.allJobs')}</div>
-        <div className="cf-tag">📋 Regulatory</div>
-        <div className="cf-tag">🔬 QA/QC</div>
-        <div className="cf-tag">🏭 Production</div>
-        <div className="cf-tag">📦 Supply Chain</div>
-        <div className="cf-tag">📈 Sales &amp; Marketing</div>
-        <div className="cf-tag">🩺 Medical Rep</div>
-        <div className="cf-tag">🧪 R&amp;D / Formulation</div>
+      <div className={styles['cat-filter']}>
+        <div className={`${styles['cf-tag']} ${styles['on']}`}>{t('jobs.allJobs')}</div>
+        <div className={styles['cf-tag']}>📋 Regulatory</div>
+        <div className={styles['cf-tag']}>🔬 QA/QC</div>
+        <div className={styles['cf-tag']}>🏭 Production</div>
+        <div className={styles['cf-tag']}>📦 Supply Chain</div>
+        <div className={styles['cf-tag']}>📈 Sales &amp; Marketing</div>
+        <div className={styles['cf-tag']}>🩺 Medical Rep</div>
+        <div className={styles['cf-tag']}>🧪 R&amp;D / Formulation</div>
       </div>
 
-      <div className="layout">
-        <div className="filters">
-          <div className="f-hdr">{t('jobs.employmentType')}</div>
-          <div className="f-opt"><input type="checkbox" defaultChecked /> {t('jobs.fullTime')}</div>
-          <div className="f-opt"><input type="checkbox" defaultChecked /> {t('jobs.contract')}</div>
-          <div className="f-opt"><input type="checkbox" defaultChecked /> {t('jobs.partTime')}</div>
-          <div className="f-opt"><input type="checkbox" defaultChecked /> {t('jobs.remote')}</div>
-          <div className="fdiv"></div>
-          <div className="f-hdr">{t('jobs.country')}</div>
-          <div className="f-opt"><input type="checkbox" defaultChecked /> 🇪🇬 Egypt</div>
-          <div className="f-opt"><input type="checkbox" defaultChecked /> 🇦🇪 UAE</div>
-          <div className="f-opt"><input type="checkbox" defaultChecked /> 🇸🇦 Saudi Arabia</div>
-          <div className="f-opt"><input type="checkbox" defaultChecked /> 🇮🇳 India</div>
-          <div className="fdiv"></div>
-          <div className="f-hdr">Seniority Level</div>
-          <div className="seniority-list">
+      <div className={styles['layout']}>
+        <div className={styles['filters']}>
+          <div className={styles['f-hdr']}>{t('jobs.employmentType')}</div>
+          <div className={styles['f-opt']}><input type="checkbox" defaultChecked /> {t('jobs.fullTime')}</div>
+          <div className={styles['f-opt']}><input type="checkbox" defaultChecked /> {t('jobs.contract')}</div>
+          <div className={styles['f-opt']}><input type="checkbox" defaultChecked /> {t('jobs.partTime')}</div>
+          <div className={styles['f-opt']}><input type="checkbox" defaultChecked /> {t('jobs.remote')}</div>
+          <div className={styles['fdiv']}></div>
+          <div className={styles['f-hdr']}>{t('jobs.country')}</div>
+          <div className={styles['f-opt']}><input type="checkbox" defaultChecked /> 🇪🇬 Egypt</div>
+          <div className={styles['f-opt']}><input type="checkbox" defaultChecked /> 🇦🇪 UAE</div>
+          <div className={styles['f-opt']}><input type="checkbox" defaultChecked /> 🇸🇦 Saudi Arabia</div>
+          <div className={styles['f-opt']}><input type="checkbox" defaultChecked /> 🇮🇳 India</div>
+          <div className={styles['fdiv']}></div>
+          <div className={styles['f-hdr']}>Seniority Level</div>
+          <div className={styles['seniority-list']}>
             {['all', 'exec', 'senior', 'mid', 'junior', 'entry'].map((lv) => (
-              <div key={lv} className={`sen-opt ${level === lv ? 'on' : ''}`} onClick={() => setLevel(lv)}>
+              <div key={lv} className={`${styles['sen-opt']} ${level === lv ? styles['on'] : ''}`} onClick={() => setLevel(lv)}>
                 {lv === 'all' ? t('jobs.allLevels') : `${LEVEL_ICON[lv]} ${t(('level.' + lv) as any)}`}
               </div>
             ))}
           </div>
         </div>
 
-        <div className="main">
+        <div className={styles['main']}>
           {mode === 'hiring' ? (
             <div>
-              <div className="post-cta">
-                <div className="post-cta-text"><div className="post-cta-title">📢 {t('jobs.hiringForTeam')}</div><div className="post-cta-sub">{t('jobs.reachPros')}</div></div>
-                <Link href="/marketplace" className="post-cta-btn" style={{ textDecoration: 'none' }}>➕ {t('jobs.postAJob')}</Link>
+              <div className={styles['post-cta']}>
+                <div className={styles['post-cta-text']}><div className={styles['post-cta-title']}>📢 {t('jobs.hiringForTeam')}</div><div className={styles['post-cta-sub']}>{t('jobs.reachPros')}</div></div>
+                <Link href="/marketplace" className={styles['post-cta-btn']} style={{ textDecoration: 'none' }}>➕ {t('jobs.postAJob')}</Link>
               </div>
-              <div className="sec-hdr"><div><div className="sec-title">{t('jobs.openPositionsHeader')} <span style={{ fontSize: 12, color: '#64748b', fontWeight: 500 }}>{filteredHiring.length} jobs</span></div><div className="sec-sub">{t('jobs.sortedRecent')}</div></div></div>
-              <div className="job-list">
+              <div className={styles['sec-hdr']}><div><div className={styles['sec-title']}>{t('jobs.openPositionsHeader')} <span style={{ fontSize: 12, color: '#64748b', fontWeight: 500 }}>{filteredHiring.length} jobs</span></div><div className={styles['sec-sub']}>{t('jobs.sortedRecent')}</div></div></div>
+              <div className={styles['job-list']}>
                 {filteredHiring.length === 0 ? (
                   <div style={{ padding: 30, color: '#94a3b8', fontSize: 13 }}>{t('jobs.noPositions')}</div>
                 ) : (
                   filteredHiring.map((j: any) => (
-                    <div className="jcard" key={j.id}>
-                      <div className="jc-logo" style={{ background: '#1a56db' }}>{initials(j.poster?.company || j.poster?.name || '?')}</div>
-                      <div className="jc-body">
-                        <div className="jc-title">
-                          <span className="role-badge have">🏢 {t('jobs.hiring')}</span>
-                          {j.seniority_level && <span className={`level-badge level-${j.seniority_level}`}>{LEVEL_ICON[j.seniority_level]} {t(('level.' + j.seniority_level) as any)}</span>}
+                    <div className={styles['jcard']} key={j.id}>
+                      <div className={styles['jc-logo']} style={{ background: '#1a56db' }}>{initials(j.poster?.company || j.poster?.name || '?')}</div>
+                      <div className={styles['jc-body']}>
+                        <div className={styles['jc-title']}>
+                          <span className={`${styles['role-badge']} ${styles['have']}`}>🏢 {t('jobs.hiring')}</span>
+                          {j.seniority_level && <span className={`${styles['level-badge']} ${styles['level-' + j.seniority_level]}`}>{LEVEL_ICON[j.seniority_level]} {t(('level.' + j.seniority_level) as any)}</span>}
                           {j.title}
                         </div>
-                        <div className="jc-company">
+                        <div className={styles['jc-company']}>
                           {j.company_id ? <Link href="/company" style={{ color: '#0f172a', fontWeight: 700, textDecoration: 'none' }}>{j.poster?.company}</Link> : <span style={{ fontWeight: 700, color: '#0f172a' }}>{j.poster?.company || j.poster?.name}</span>}
                           {' · '}<span>{j.poster?.country || ''}</span>{j.poster?.verified && <> · <span style={{ color: '#1a56db' }}>✓ Verified</span></>}
                         </div>
-                        <div className="jc-tags">
-                          {j.employment_type && <span className="jt jt-ft">{j.employment_type}</span>}
-                          {j.department && <span className="jt" style={{ background: '#dbeafe', color: '#1d4ed8' }}>{j.department}</span>}
+                        <div className={styles['jc-tags']}>
+                          {j.employment_type && <span className={`${styles['jt']} ${styles['jt-ft']}`}>{j.employment_type}</span>}
+                          {j.department && <span className={styles['jt']} style={{ background: '#dbeafe', color: '#1d4ed8' }}>{j.department}</span>}
                         </div>
-                        <div className="jc-desc">{j.description || ''}</div>
+                        <div className={styles['jc-desc']}>{j.description || ''}</div>
                       </div>
-                      <div className="jc-right">
-                        <div className="jc-posted">{j.created_at ? new Date(j.created_at).toLocaleDateString() : ''}</div>
-                        {j.user_id !== currentUserId && <button className="apply-btn" onClick={() => handleApply(j.id)}>{t('jobs.applyNow')} →</button>}
-                        <button className="save-btn">🔖 {t('mk.save')}</button>
+                      <div className={styles['jc-right']}>
+                        <div className={styles['jc-posted']}>{j.created_at ? new Date(j.created_at).toLocaleDateString() : ''}</div>
+                        {j.user_id !== currentUserId && <button className={styles['apply-btn']} onClick={() => handleApply(j.id)}>{t('jobs.applyNow')} →</button>}
+                        <button className={styles['save-btn']}>🔖 {t('mk.save')}</button>
                       </div>
                     </div>
                   ))
@@ -147,31 +148,31 @@ export default function JobsApproved({ hiringJobs, seekingJobs, currentUserId }:
             </div>
           ) : (
             <div>
-              <div className="post-cta" style={{ background: 'linear-gradient(135deg,#7c2d12,#c2410c)' }}>
-                <div className="post-cta-text"><div className="post-cta-title">📄 {t('jobs.lookingForRole')}</div><div className="post-cta-sub">{t('jobs.postProfileSub')}</div></div>
-                <Link href="/marketplace" className="post-cta-btn" style={{ color: '#7c2d12', textDecoration: 'none' }}>➕ {t('jobs.postMyProfile')}</Link>
+              <div className={styles['post-cta']} style={{ background: 'linear-gradient(135deg,#7c2d12,#c2410c)' }}>
+                <div className={styles['post-cta-text']}><div className={styles['post-cta-title']}>📄 {t('jobs.lookingForRole')}</div><div className={styles['post-cta-sub']}>{t('jobs.postProfileSub')}</div></div>
+                <Link href="/marketplace" className={styles['post-cta-btn']} style={{ color: '#7c2d12', textDecoration: 'none' }}>➕ {t('jobs.postMyProfile')}</Link>
               </div>
-              <div className="sec-hdr"><div><div className="sec-title">{t('jobs.availableCandidates')} <span style={{ fontSize: 12, color: '#64748b', fontWeight: 500 }}>{filteredSeeking.length} profiles</span></div><div className="sec-sub">{t('jobs.verifiedLooking')}</div></div></div>
-              <div className="candidate-list">
+              <div className={styles['sec-hdr']}><div><div className={styles['sec-title']}>{t('jobs.availableCandidates')} <span style={{ fontSize: 12, color: '#64748b', fontWeight: 500 }}>{filteredSeeking.length} profiles</span></div><div className={styles['sec-sub']}>{t('jobs.verifiedLooking')}</div></div></div>
+              <div className={styles['candidate-list']}>
                 {filteredSeeking.length === 0 ? (
                   <div style={{ padding: 30, color: '#94a3b8', fontSize: 13 }}>{t('jobs.noCandidates')}</div>
                 ) : (
                   filteredSeeking.map((j: any) => (
-                    <div className="ccard" key={j.id}>
-                      <div className="ccard-avatar" style={{ background: '#7A5680' }}>{initials(j.poster?.name || '?')}<div className="ccard-availability"></div></div>
-                      <div className="ccard-body">
-                        <div className="ccard-name">{j.poster?.name} {j.poster?.verified && <span style={{ color: '#1a56db', fontSize: 11 }}>✓</span>}</div>
-                        <div className="ccard-role">{j.title}</div>
-                        <div className="ccard-meta">{j.poster?.country || ''} {j.poster?.company ? `· ${j.poster.company}` : ''}</div>
-                        <div className="ccard-stats">
-                          <div className="ccard-stat"><b>{j.seniority_level ? t(('level.' + j.seniority_level) as any) : '—'}</b>{t('jobs.seniority')}</div>
-                          <div className="ccard-stat"><b>{j.employment_type || t('jobs.fullTime')}</b>{t('jobs.seeking')}</div>
+                    <div className={styles['ccard']} key={j.id}>
+                      <div className={styles['ccard-avatar']} style={{ background: '#7A5680' }}>{initials(j.poster?.name || '?')}<div className={styles['ccard-availability']}></div></div>
+                      <div className={styles['ccard-body']}>
+                        <div className={styles['ccard-name']}>{j.poster?.name} {j.poster?.verified && <span style={{ color: '#1a56db', fontSize: 11 }}>✓</span>}</div>
+                        <div className={styles['ccard-role']}>{j.title}</div>
+                        <div className={styles['ccard-meta']}>{j.poster?.country || ''} {j.poster?.company ? `· ${j.poster.company}` : ''}</div>
+                        <div className={styles['ccard-stats']}>
+                          <div className={styles['ccard-stat']}><b>{j.seniority_level ? t(('level.' + j.seniority_level) as any) : '—'}</b>{t('jobs.seniority')}</div>
+                          <div className={styles['ccard-stat']}><b>{j.employment_type || t('jobs.fullTime')}</b>{t('jobs.seeking')}</div>
                         </div>
                       </div>
-                      <div className="ccard-right">
-                        <div className="availability-badge">🟢 {t('jobs.availableNow')}</div>
-                        {j.user_id !== currentUserId && <button className="apply-btn contact" onClick={() => handleApply(j.id)}>{t('jobs.contact')} →</button>}
-                        <button className="save-btn">🔖 {t('mk.save')}</button>
+                      <div className={styles['ccard-right']}>
+                        <div className={styles['availability-badge']}>🟢 {t('jobs.availableNow')}</div>
+                        {j.user_id !== currentUserId && <button className={`${styles['apply-btn']} ${styles['contact']}`} onClick={() => handleApply(j.id)}>{t('jobs.contact')} →</button>}
+                        <button className={styles['save-btn']}>🔖 {t('mk.save')}</button>
                       </div>
                     </div>
                   ))

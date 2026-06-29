@@ -2,7 +2,6 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getGroups } from '@/actions/groups'
 import GroupsApproved from '@/components/GroupsApproved'
-import './groups-approved.css'
 
 export default async function GroupsPage() {
   const supabase = await createClient()

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { toggleReaction, getComments, addComment } from '@/actions/posts'
+import styles from '@/app/feed/feed-approved.module.css'
 
 const CAT_CLASS: Record<string, string> = {
   general: 'cat-general', regulatory: 'cat-regulatory', market: 'cat-market',
@@ -84,23 +85,23 @@ export default function FeedPost({ post }: { post: any }) {
   }
 
   return (
-    <div className="post">
-      <div className="post-head">
-        <div className="post-av" style={{ background: '#1a56db' }}>{initials(a.name)}</div>
+    <div className={styles['post']}>
+      <div className={styles['post-head']}>
+        <div className={styles['post-av']} style={{ background: '#1a56db' }}>{initials(a.name)}</div>
         <div>
-          <Link href="/profile" className="post-author" style={{ textDecoration: 'none' }}>
+          <Link href="/profile" className={styles['post-author']} style={{ textDecoration: 'none' }}>
             {a.name} {a.verified && <span style={{ color: '#1a56db', fontSize: 11 }}>✓</span>}
           </Link>
-          <div className="post-meta">{a.headline}{a.company ? `, ${a.company}` : ''} · {timeAgo(post.created_at)}</div>
+          <div className={styles['post-meta']}>{a.headline}{a.company ? `, ${a.company}` : ''} · {timeAgo(post.created_at)}</div>
         </div>
-        <span className={`post-cat ${CAT_CLASS[post.category] || 'cat-general'}`}>{CAT_LABEL[post.category] || 'General'}</span>
+        <span className={`${styles['post-cat']} ${styles[CAT_CLASS[post.category] || 'cat-general']}`}>{CAT_LABEL[post.category] || 'General'}</span>
       </div>
-      <div className="post-body">{post.body}</div>
-      <div className="post-stats"><span>👍 {reactionCount} reactions</span><span>{commentCount} comments</span></div>
-      <div className="post-actions">
-        <div className={`post-action-btn ${liked ? 'liked' : ''}`} onClick={handleLike} style={{ cursor: 'pointer' }}>👍 Like</div>
-        <div className="post-action-btn" onClick={handleToggleComments} style={{ cursor: 'pointer' }}>💬 Comment</div>
-        <div className="post-action-btn" style={{ cursor: 'pointer' }}>↗️ Share</div>
+      <div className={styles['post-body']}>{post.body}</div>
+      <div className={styles['post-stats']}><span>👍 {reactionCount} reactions</span><span>{commentCount} comments</span></div>
+      <div className={styles['post-actions']}>
+        <div className={`${styles['post-action-btn']} ${liked ? styles['liked'] : ''}`} onClick={handleLike} style={{ cursor: 'pointer' }}>👍 Like</div>
+        <div className={styles['post-action-btn']} onClick={handleToggleComments} style={{ cursor: 'pointer' }}>💬 Comment</div>
+        <div className={styles['post-action-btn']} style={{ cursor: 'pointer' }}>↗️ Share</div>
       </div>
 
       {showComments && (
@@ -109,7 +110,7 @@ export default function FeedPost({ post }: { post: any }) {
           {commentsError && <div style={{ fontSize: 12.5, color: '#dc2626', marginBottom: 8 }}>Couldn&apos;t load comments. Please try again.</div>}
           {comments.map((c) => (
             <div key={c.id} style={{ display: 'flex', gap: 10, marginBottom: 10 }}>
-              <div className="post-av" style={{ width: 30, height: 30, fontSize: 11, background: '#64748b' }}>{c.author ? initials(c.author.name) : '?'}</div>
+              <div className={styles['post-av']} style={{ width: 30, height: 30, fontSize: 11, background: '#64748b' }}>{c.author ? initials(c.author.name) : '?'}</div>
               <div style={{ flex: 1, background: '#f0f4fb', borderRadius: 11, padding: '8px 12px' }}>
                 <div style={{ fontSize: 12.5, fontWeight: 700 }}>{c.author?.name} {c.author?.verified && <span style={{ color: '#1a56db' }}>✓</span>}</div>
                 <div style={{ fontSize: 13 }}>{c.body}</div>

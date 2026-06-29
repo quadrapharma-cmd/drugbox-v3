@@ -1,9 +1,9 @@
 
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#1d1d1f;font-size:17px;line-height:1.47;-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none}
-button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+
+
+
+
 
 /* ═══ NAV — Apple-style frosted glass bar ═══ */
 .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.06);height:52px;display:flex;align-items:center;padding:0 24px}
@@ -152,3 +152,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 html[dir="rtl"] .manage-panel { right: auto; left: 0; transform: translateX(-100%); }
 html[dir="rtl"] .manage-panel.open { transform: translateX(0); }
 html[dir="rtl"] .mgmt-prod-actions { margin-left: 0; margin-right: auto; }
+
+/* Scoped replacement for the removed global body rule — preserves the
+   distinctive white Apple-style background/typography for this page only. */
+.pageRoot { background:#fff; color:#1d1d1f; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; font-size:17px; line-height:1.47; -webkit-font-smoothing:antialiased; min-height:100vh; }

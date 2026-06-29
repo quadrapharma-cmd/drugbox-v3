@@ -2,7 +2,6 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getJobs } from '@/actions/jobs'
 import JobsApproved from '@/components/JobsApproved'
-import './jobs-approved.css'
 
 export default async function JobsPage() {
   const supabase = await createClient()
